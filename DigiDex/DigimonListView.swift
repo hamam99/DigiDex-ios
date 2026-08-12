@@ -4,11 +4,11 @@ import SwiftUI
 struct DigimonListView: View {
     var body: some View {
         NavigationStack {
-            Text("Digimon List").navigationTitle("Digimon")
+            Text("Digimon Favourites").navigationTitle("Favourites")
         }
     }
 }
 
 #Preview {
-    DigimonListFavouriteView()
+    DigimonListView()
 }

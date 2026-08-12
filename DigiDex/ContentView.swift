@@ -15,15 +15,15 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             TabView {
-                DigimonListView().tabItem({
+                DigimonListFavouriteView().tabItem {
                     Image(systemName: "list.bullet.below.rectangle")
                     Text("Digimon")
-                })
+                }
 
-                DigimonListFavouriteView().tabItem({
+                DigimonListFavouriteView().tabItem {
                     Image(systemName: "heart.fill")
                     Text("Favourites")
-                })
+                }
             }
         }
     }
