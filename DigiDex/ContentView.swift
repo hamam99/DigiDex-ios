@@ -29,22 +29,6 @@ struct ContentView: View {
     }
 }
 
-struct DigimonListView: View {
-    var body: some View {
-        NavigationStack {
-            Text("Digimon List").navigationTitle("Digimon")
-        }
-    }
-}
-
-struct DigimonListFavouriteView: View {
-    var body: some View {
-        NavigationStack {
-            Text("Digimon Favourites").navigationTitle("Favourites")
-        }
-    }
-}
-
 #Preview {
     ContentView()
         .modelContainer(for: Item.self, inMemory: true)
