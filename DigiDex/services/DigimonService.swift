@@ -2,13 +2,13 @@ import Alamofire
 import Foundation
 
 // MARK: - DigimonListResponse
-struct DigimonListResponse: Decodable {
+struct DigimonListResponse: Decodable, Hashable {
     let content: [ContentDigimon]
     let pageable: Pageable
 }
 
 // MARK: - Content
-struct ContentDigimon: Decodable {
+struct ContentDigimon: Decodable, Hashable, Identifiable {
     let id: Int
     let name: String
     let href: String
@@ -16,14 +16,14 @@ struct ContentDigimon: Decodable {
 }
 
 // MARK: - Pageable
-struct Pageable: Decodable {
+struct Pageable: Decodable, Hashable {
     let currentPage, elementsOnPage, totalElements, totalPages: Int
     let previousPage: String
     let nextPage: String
 }
 
 // MARK: - DigimonDetailResponse
-struct DigimonDetailResponse: Decodable {
+struct DigimonDetailResponse: Decodable, Hashable, Identifiable {
     let id: Int
     let name: String
     let xAntibody: Bool
@@ -39,37 +39,37 @@ struct DigimonDetailResponse: Decodable {
 }
 
 // MARK: - Attribute
-struct Attribute: Decodable {
+struct Attribute: Decodable, Hashable, Identifiable {
     let id: Int
     let attribute: String
 }
 
 // MARK: - Description
-struct Description: Decodable {
+struct Description: Decodable, Hashable {
     let origin, language, description: String
 }
 
 // MARK: - Field
-struct Field: Decodable {
+struct Field: Decodable, Hashable, Identifiable {
     let id: Int
     let field: String
     let image: String
 }
 
 // MARK: - DigimonImage
-struct DigimonImage: Decodable {
+struct DigimonImage: Decodable, Hashable {
     let href: String
     let transparent: Bool
 }
 
 // MARK: - Level
-struct Level: Decodable {
+struct Level: Decodable, Hashable, Identifiable {
     let id: Int
     let level: String
 }
 
 // MARK: - Evolution
-struct Evolution: Decodable {
+struct Evolution: Decodable, Hashable, Identifiable {
     let id: Int
     let digimon, condition: String
     let image: String
@@ -77,7 +77,7 @@ struct Evolution: Decodable {
 }
 
 // MARK: - Skill
-struct Skill: Decodable {
+struct Skill: Decodable, Hashable, Identifiable {
     let id: Int
     let skill: String
     let translation: String
@@ -85,14 +85,13 @@ struct Skill: Decodable {
 }
 
 // MARK: - TypeElement
-struct TypeElement: Decodable {
+struct TypeElement: Decodable, Hashable, Identifiable {
     let id: Int
     let type: String
 }
 
-let BASE_URL = "https://digi-api.com"
-let V1 = "/api/v1/digimon/"
-let FULL_URL = BASE_URL + V1
+let BASE_URL = "https://digi-api.com/api/v1/digimon"
+let FULL_URL = BASE_URL
 
 struct DigimonService {
 
@@ -100,11 +99,11 @@ struct DigimonService {
         do {
             let params: Parameters = [
                 "page": page,
-                "pageSize": 25,
+                "pageSize": 45,
             ]
 
             let response = try await AF.request(
-                "\(FULL_URL)/digimon",
+                FULL_URL,
                 method: .get,
                 parameters: params
             )
@@ -124,7 +123,7 @@ struct DigimonService {
 
         do {
             let response = try await AF.request(
-                "\(FULL_URL)/digimon/\(id)",
+                "\(FULL_URL)/\(id)",
                 method: .get,
             ).cacheResponse(using: .cache)
                 .validate()
