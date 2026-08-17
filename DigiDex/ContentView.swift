@@ -15,7 +15,7 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             TabView {
-                DigimonListFavouriteView().tabItem {
+                DigimonListView().tabItem {
                     Image(systemName: "list.bullet.below.rectangle")
                     Text("Digimon")
                 }
