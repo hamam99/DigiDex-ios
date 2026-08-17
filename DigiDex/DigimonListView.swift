@@ -6,10 +6,10 @@ struct DigimonListView: View {
     @State private var digimons: [ContentDigimon] = []
     @State private var isLoading = false
     @State private var currentPage: Int = 0
+    @State private var hasMorePage = true
 
     private let columns = Array(
         repeating: GridItem(.flexible(), spacing: 8),
-        // repeating: GridItem(.adaptive(minimum: 140, maximum: 140), spacing: 0),
         count: 3
     )
 
@@ -36,23 +36,44 @@ struct DigimonListView: View {
                             .overlay(
                                 RoundedRectangle(cornerRadius: 12).stroke(Color.gray.opacity(0.3))
                             )
+                        }.onAppear {
+                            Task {
+                                await handleLoadMore()
+                            }
                         }
                     }
+                }.padding(.horizontal, 2)
+
+                if isLoading {
+                    HStack {
+                        ProgressView().padding()
+                    }.frame(width: .infinity)
                 }
-                .padding(.horizontal, 2)
             }
         }.task {
             await loadDigimons()
         }
     }
 
+    func handleLoadMore() async {
+        guard hasMorePage else { return }
+
+        await loadDigimons()
+    }
+
     func loadDigimons() async {
+        guard hasMorePage, !isLoading else { return }
         isLoading = true
 
         do {
             let response = try await digimonService.getList(page: currentPage)
-            digimons.append(contentsOf: response?.content ?? [])
-            currentPage += 1
+            if let response, !response.content.isEmpty {
+                digimons.append(contentsOf: response.content)
+                currentPage += 1
+                hasMorePage = currentPage < response.pageable.totalPages
+            } else {
+                hasMorePage = false
+            }
         } catch {}
         isLoading = false
     }

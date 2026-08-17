@@ -99,7 +99,7 @@ struct DigimonService {
         do {
             let params: Parameters = [
                 "page": page,
-                "pageSize": 45,
+                "pageSize": 21,
             ]
 
             let response = try await AF.request(
