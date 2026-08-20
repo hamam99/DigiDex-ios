@@ -49,6 +49,8 @@ struct DigimonListView: View {
                         ProgressView().padding()
                     }.frame(width: .infinity)
                 }
+            }.navigationDestination(for: ContentDigimon.self) { item in
+                DigimonDetailView(id: item.id)
             }
         }.task {
             await loadDigimons()
