@@ -7,6 +7,7 @@ struct DigimonDetailView: View {
 
     @State private var digimon: DigimonDetailResponse? = nil
     @State private var isLoding: Bool = false
+    @State private var isFavourite: Bool = false
 
     var body: some View {
         ScrollView {
@@ -50,6 +51,16 @@ struct DigimonDetailView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                         }
                     }.padding(.horizontal, 12)
+                }.overlay(alignment: .topTrailing) {
+                    Button {
+                        onHandleFavourite()
+                    } label: {
+                        Image(systemName: isFavourite ? "heart.fill" : "heart")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 32, height: 32)
+                            .padding(.horizontal, 24)
+                    }.buttonStyle(.plain)
 
                 }
             }
@@ -94,6 +105,10 @@ struct DigimonDetailView: View {
         } catch {
         }
         isLoding = false
+    }
+
+    func onHandleFavourite() {
+        isFavourite = !isFavourite
     }
 }
 
