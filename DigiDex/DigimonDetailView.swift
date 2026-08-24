@@ -39,7 +39,7 @@ struct DigimonDetailView: View {
                                             } placeholder: {
                                                 ProgressView()
                                             }
-                                            .frame(width: 60, height: 60)
+                                            .frame(width: 40, height: 40)
                                             .clipped()
                                         } else {
                                             Text(val).font(.caption)
