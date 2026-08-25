@@ -2,6 +2,9 @@ import SwiftData
 import SwiftUI
 
 struct DigimonDetailView: View {
+    @Environment(\.modelContext) private var modelContext
+    // @Query private var favouriteDigimon: [DigimonFavouriteModel]
+
     let id: Int?
     private let digimonService = DigimonService()
 
@@ -68,6 +71,7 @@ struct DigimonDetailView: View {
         }.task {
             Task {
                 await loadDigimonDetail()
+                checkIfAlreadyFavourite()
             }
         }
     }
@@ -108,7 +112,39 @@ struct DigimonDetailView: View {
     }
 
     func onHandleFavourite() {
+        guard digimon != nil else {
+            return
+        }
+
+
+        let favourite = DigimonFavouriteModel(
+            id: digimon!.id,
+            name: digimon!.name,
+            imageUrl: digimon!.images[0].href
+        )
+        
+        print("isFavourite:\(isFavourite) \(favourite.id), \(favourite.name), \(favourite.imageUrl)")
+
+        if isFavourite {
+            modelContext.delete(favourite)
+        } else {
+            modelContext.insert(favourite)
+        }
+        try? modelContext.save()
         isFavourite = !isFavourite
+    }
+
+    func checkIfAlreadyFavourite() {
+        guard let id else {
+            return
+        }
+
+        let descriptor = FetchDescriptor<DigimonFavouriteModel>(
+            predicate: #Predicate { $0.id == id },
+        )
+
+        let favourite = try? modelContext.fetch(descriptor).first
+        isFavourite = favourite != nil
     }
 }
 

@@ -9,8 +9,8 @@ import SwiftData
 import SwiftUI
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var favouriteDigimon: [DigimonFavouriteModel]
+    // @Environment(\.modelContext) private var modelContext
+    // @Query private var favouriteDigimon: [DigimonFavouriteModel]
 
     var body: some View {
         ZStack {

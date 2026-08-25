@@ -4,12 +4,12 @@ import SwiftData
 @Model
 final class DigimonFavouriteModel: Identifiable {
     var id: Int
-    var image: String
     var name: String
+    var imageUrl: String
 
-    init(digimon: DigimonDetailResponse) {
-        self.id = digimon.id
-        self.image = digimon.images[0].href
-        self.name = digimon.name
+    init(id: Int, name: String, imageUrl: String, ) {
+        self.id = id
+        self.imageUrl = imageUrl
+        self.name = name
     }
 }

@@ -14,10 +14,16 @@ struct DigiDexApp: App {
         let schema = Schema([
             DigimonFavouriteModel.self
         ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
+        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+        let modelContainer: ModelContainer
         do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+            modelContainer = try ModelContainer(for: schema, configurations: [modelConfiguration])
+            if let url = modelContainer.configurations.first?.url {
+                          print("SwiftData Storage Location: \(url.path)")
+            }
+            
+            return modelContainer
         } catch {
             fatalError("Could not create ModelContainer: \(error)")
         }
