@@ -8,7 +8,7 @@ struct DigimonListResponse: Decodable, Hashable {
 }
 
 // MARK: - Content
-struct ContentDigimon: Decodable, Hashable, Identifiable {
+struct ContentDigimon: Decodable, Hashable, Identifiable, Encodable {
     let id: Int
     let name: String
     let href: String
@@ -23,7 +23,7 @@ struct Pageable: Decodable, Hashable {
 }
 
 // MARK: - DigimonDetailResponse
-struct DigimonDetailResponse: Decodable, Hashable, Identifiable {
+struct DigimonDetailResponse: Decodable, Hashable, Identifiable, Encodable {
     let id: Int
     let name: String
     let xAntibody: Bool
@@ -39,37 +39,37 @@ struct DigimonDetailResponse: Decodable, Hashable, Identifiable {
 }
 
 // MARK: - Attribute
-struct Attribute: Decodable, Hashable, Identifiable {
+struct Attribute: Decodable, Hashable, Identifiable, Encodable {
     let id: Int
     let attribute: String
 }
 
 // MARK: - Description
-struct Description: Decodable, Hashable {
+struct Description: Decodable, Hashable, Encodable {
     let origin, language, description: String
 }
 
 // MARK: - Field
-struct Field: Decodable, Hashable, Identifiable {
+struct Field: Decodable, Hashable, Identifiable, Encodable {
     let id: Int
     let field: String
     let image: String
 }
 
 // MARK: - DigimonImage
-struct DigimonImage: Decodable, Hashable {
+struct DigimonImage: Decodable, Hashable, Encodable {
     let href: String
     let transparent: Bool
 }
 
 // MARK: - Level
-struct Level: Decodable, Hashable, Identifiable {
+struct Level: Decodable, Hashable, Identifiable, Encodable {
     let id: Int
     let level: String
 }
 
 // MARK: - Evolution
-struct Evolution: Decodable, Hashable, Identifiable {
+struct Evolution: Decodable, Hashable, Identifiable, Encodable {
     let id: Int
     let digimon, condition: String
     let image: String
@@ -77,7 +77,7 @@ struct Evolution: Decodable, Hashable, Identifiable {
 }
 
 // MARK: - Skill
-struct Skill: Decodable, Hashable, Identifiable {
+struct Skill: Decodable, Hashable, Identifiable, Encodable {
     let id: Int
     let skill: String
     let translation: String
@@ -85,7 +85,7 @@ struct Skill: Decodable, Hashable, Identifiable {
 }
 
 // MARK: - TypeElement
-struct TypeElement: Decodable, Hashable, Identifiable {
+struct TypeElement: Decodable, Hashable, Identifiable, Encodable {
     let id: Int
     let type: String
 }

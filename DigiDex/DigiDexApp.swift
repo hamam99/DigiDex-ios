@@ -12,7 +12,7 @@ import SwiftUI
 struct DigiDexApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self
+            DigimonFavouriteModel.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
