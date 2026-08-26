@@ -112,26 +112,33 @@ struct DigimonDetailView: View {
     }
 
     func onHandleFavourite() {
-        guard digimon != nil else {
+        guard let digimon, let id else {
             return
         }
 
-
-        let favourite = DigimonFavouriteModel(
-            id: digimon!.id,
-            name: digimon!.name,
-            imageUrl: digimon!.images[0].href
-        )
-        
-        print("isFavourite:\(isFavourite) \(favourite.id), \(favourite.name), \(favourite.imageUrl)")
-
         if isFavourite {
-            modelContext.delete(favourite)
+            // Fetch the existing record from the context and delete THAT instance
+            let descriptor = FetchDescriptor<DigimonFavouriteModel>(
+                predicate: #Predicate { $0.id == id }
+            )
+            if let existing = try? modelContext.fetch(descriptor).first {
+                modelContext.delete(existing)
+            }
         } else {
+            let favourite = DigimonFavouriteModel(
+                id: digimon.id,
+                name: digimon.name,
+                imageUrl: digimon.images[0].href
+            )
             modelContext.insert(favourite)
         }
-        try? modelContext.save()
-        isFavourite = !isFavourite
+
+        do {
+            try modelContext.save()
+        } catch {
+            print("error: \(error)")
+        }
+        isFavourite.toggle()
     }
 
     func checkIfAlreadyFavourite() {
@@ -143,8 +150,12 @@ struct DigimonDetailView: View {
             predicate: #Predicate { $0.id == id },
         )
 
-        let favourite = try? modelContext.fetch(descriptor).first
-        isFavourite = favourite != nil
+        if let existing = try? modelContext.fetch(descriptor).first {
+            isFavourite = true
+        } else {
+            isFavourite = false
+        }
+
     }
 }
 
