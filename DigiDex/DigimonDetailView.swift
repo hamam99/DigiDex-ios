@@ -20,7 +20,7 @@ struct DigimonDetailView: View {
             } else {
                 VStack(alignment: .center, spacing: 8) {
                     AsyncImage(url: URL(string: digimon?.images[0].href ?? "")) { image in
-                        image.resizable().scaledToFill()
+                        image.resizable().scaledToFit()
                     } placeholder: {
                         ProgressView()
                     }
