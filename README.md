@@ -20,20 +20,14 @@ Created by **Hamam Nasrodin**.
 - **Local Persistence** — Favourites are stored on-device with SwiftData and survive app restarts.
 - **Async Images** — Images are loaded asynchronously with built-in progress placeholders.
 
-## 📸 Screenshots
-
-| Digimon List | Digimon Detail | Favourites |
-| :---: | :---: | :---: |
-| ![List](screenshots/01.list.png) | ![Detail](screenshots/02.detail.png) | ![Favourites](screenshots/03.favourites.png) |
-
 ## 🧱 Tech Stack & Libraries
 
-| Library | Purpose |
-| :--- | :--- |
-| [SwiftUI](https://developer.apple.com/xcode/swiftui/) | Declarative UI framework |
-| [SwiftData](https://developer.apple.com/documentation/swiftdata) | On-device persistence for favourites |
-| [Alamofire](https://github.com/Alamofire/Alamofire) (v5.12.0) | Networking / API requests, via Swift Package Manager |
-| [Digi-API](https://digi-api.com) | Public REST API for Digimon data |
+| Library                                                          | Purpose                                              |
+| :--------------------------------------------------------------- | :--------------------------------------------------- |
+| [SwiftUI](https://developer.apple.com/xcode/swiftui/)            | Declarative UI framework                             |
+| [SwiftData](https://developer.apple.com/documentation/swiftdata) | On-device persistence for favourites                 |
+| [Alamofire](https://github.com/Alamofire/Alamofire) (v5.12.0)    | Networking / API requests, via Swift Package Manager |
+| [Digi-API](https://digi-api.com)                                 | Public REST API for Digimon data                     |
 
 ## 🚀 Setup
 
@@ -46,17 +40,19 @@ Created by **Hamam Nasrodin**.
 ### Steps
 
 1. **Clone the repository**
+
    ```bash
    git clone <your-repo-url>
    cd DigiDex
    ```
 
 2. **Open the project in Xcode**
+
    ```bash
    open DigiDex.xcodeproj
    ```
 
-3. **Resolve dependencies** — Alamofire is fetched automatically via Swift Package Manager on first build. (Project → *Package Dependencies* should show `Alamofire 5.12.0`.)
+3. **Resolve dependencies** — Alamofire is fetched automatically via Swift Package Manager on first build. (Project → _Package Dependencies_ should show `Alamofire 5.12.0`.)
 
 4. **Select a simulator / device** with iOS 17.0 or later.
 
