@@ -3,7 +3,6 @@ import SwiftUI
 
 struct DigimonDetailView: View {
     @Environment(\.modelContext) private var modelContext
-    // @Query private var favouriteDigimon: [DigimonFavouriteModel]
 
     let id: Int?
     private let digimonService = DigimonService()
@@ -54,26 +53,27 @@ struct DigimonDetailView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                         }
                     }.padding(.horizontal, 12)
-                }.overlay(alignment: .topTrailing) {
-                    Button {
-                        onHandleFavourite()
-                    } label: {
-                        Image(systemName: isFavourite ? "heart.fill" : "heart")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 32, height: 32)
-                            .padding(.horizontal, 24)
-                    }.buttonStyle(.plain)
-
                 }
             }
 
-        }.task {
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    onHandleFavourite()
+                } label: {
+                    Image(systemName: isFavourite ? "heart.fill" : "heart")
+                }
+            }
+        }
+        .toolbar(.hidden, for: .tabBar)
+        .task {
             Task {
                 await loadDigimonDetail()
                 checkIfAlreadyFavourite()
             }
         }
+        .ignoresSafeArea()
     }
 
     func getListInformation() -> [LabelValue] {
@@ -117,13 +117,10 @@ struct DigimonDetailView: View {
         }
 
         if isFavourite {
-            // Fetch the existing record from the context and delete THAT instance
-            let descriptor = FetchDescriptor<DigimonFavouriteModel>(
-                predicate: #Predicate { $0.id == id }
-            )
-            if let existing = try? modelContext.fetch(descriptor).first {
+            if let existing = loadCurrentDigimonFromDb() {
                 modelContext.delete(existing)
             }
+
         } else {
             let favourite = DigimonFavouriteModel(
                 id: digimon.id,
@@ -141,22 +138,30 @@ struct DigimonDetailView: View {
         isFavourite.toggle()
     }
 
-    func checkIfAlreadyFavourite() {
+    func loadCurrentDigimonFromDb() -> DigimonFavouriteModel? {
         guard let id else {
-            return
+            return nil
         }
-
         let descriptor = FetchDescriptor<DigimonFavouriteModel>(
             predicate: #Predicate { $0.id == id },
         )
+        if let existing: DigimonFavouriteModel = try? modelContext.fetch(descriptor).first {
+            return existing
+        } else {
+            return nil
+        }
 
-        if let existing = try? modelContext.fetch(descriptor).first {
+    }
+
+    func checkIfAlreadyFavourite() {
+        if loadCurrentDigimonFromDb() != nil {
             isFavourite = true
         } else {
             isFavourite = false
         }
 
     }
+
 }
 
 #Preview {
