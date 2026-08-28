@@ -31,27 +31,9 @@ struct DigimonDetailView: View {
                         Text(digimon?.name ?? "").font(.title3).foregroundColor(.black).bold()
 
                         ForEach(getListInformation(), id: \.label) { info in
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(info.label).font(.callout).bold()
-                                HStack {
-                                    ForEach(info.value ?? [], id: \.self) { val in
-
-                                        if val.hasPrefix("http") {
-                                            AsyncImage(url: URL(string: val)) { image in
-                                                image.resizable().scaledToFill()
-                                            } placeholder: {
-                                                ProgressView()
-                                            }
-                                            .frame(width: 40, height: 40)
-                                            .clipped()
-                                        } else {
-                                            Text(val).font(.caption)
-                                        }
-                                    }
-                                }
-                            }
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                            LabelValueUi(labelValue: info)
                         }
+
                     }.padding(.horizontal, 12)
                 }
             }
@@ -76,22 +58,25 @@ struct DigimonDetailView: View {
         .ignoresSafeArea()
     }
 
-    func getListInformation() -> [LabelValue] {
-        let list: [LabelValue] = [
-            LabelValue(
+    func getListInformation() -> [LabelValueModel] {
+        let list: [LabelValueModel] = [
+            LabelValueModel(
                 label: "Description",
                 value: [
                     digimon?.descriptions.first(where: { $0.language == "en_us" })?.description
                         ?? ""
                 ]
             ),
-            LabelValue(
+            LabelValueModel(
                 label: "Level", value: digimon?.levels.map { $0.level }
             ),
-            LabelValue(
+            LabelValueModel(
                 label: "Attribute",
                 value: digimon?.attributes.map { $0.attribute }),
-            LabelValue(
+            LabelValueModel(
+                label: "Types",
+                value: digimon?.types.map { $0.type }),
+            LabelValueModel(
                 label: "Fields", value: digimon?.fields.map { $0.image }),
         ]
         return list

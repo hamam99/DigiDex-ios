@@ -1,5 +1,5 @@
 // MARK: - Content
-struct LabelValue: Decodable, Hashable {
+struct LabelValueModel: Decodable, Hashable {
     let label: String
     let value: [String]?
 }
